@@ -22,6 +22,9 @@ export class Server {
 
   async start() {
 
+    // Middleware
+    this.app.use( express.json() )
+
     this.app.use( this.routes )
 
     this.app.listen(this.port, () => {
