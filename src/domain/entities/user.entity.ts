@@ -1,7 +1,7 @@
 
 export class UserEntity {
 
-  private constructor(
+  constructor(
     public id: string,
     public name: string,
     public email: string,
