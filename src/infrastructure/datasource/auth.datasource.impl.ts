@@ -1,6 +1,7 @@
 import { AuthDatasource, CustomError, RegisterUserDto, UserEntity } from "../../domain";
 import { UserModel } from "../../data/postgres/models";
 import { Postgres } from '../../data/postgres/postgres.database';
+import { BcryptAdapter } from '../../config/bcrypt';
 
 export class AuthDatasourceImpl implements AuthDatasource {
   async register(registerUserDto: RegisterUserDto): Promise<UserEntity> {
@@ -16,7 +17,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
       const user =  await Postgres.connectDatabase.getRepository(UserModel).save({
         name:name,
         email:email,
-        password: password,
+        password: BcryptAdapter.hash(password),
         roles: "ROLE_ADMIN"
 
       })
@@ -25,6 +26,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
         user.id as string,
         user.name,
         user.email,
+        user.password,
         [user.roles],
         [user.img as string],
       )
@@ -41,7 +43,6 @@ export class AuthDatasourceImpl implements AuthDatasource {
       throw CustomError.internalServer()
 
     }
-
 
   }
 }
