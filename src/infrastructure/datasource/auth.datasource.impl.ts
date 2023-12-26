@@ -2,6 +2,7 @@ import { AuthDatasource, CustomError, RegisterUserDto, UserEntity } from "../../
 import { UserModel } from "../../data/postgres/models";
 import { Postgres } from '../../data/postgres/postgres.database';
 import { BcryptAdapter } from '../../config/bcrypt';
+import { UserMapper } from "../mappers/user.mapper";
 
 
 type hashFunction  = ( password: string ) => string
@@ -33,14 +34,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
         roles: "ROLE_ADMIN"
       })
 
-      return new UserEntity(
-        user.id as string,
-        user.name,
-        user.email,
-        user.password,
-        [user.roles],
-        [user.img as string],
-      )
+      return UserMapper.userEntityFromObject(user)
 
     } catch (error) {
 
