@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { AuthController } from "./controller";
 import { AuthDatasourceImpl, AuthRepositoryImpl } from "../../infrastructure";
+import { AuhtMiddleware } from "../middlewares/auth.middleware";
 
 
 export class AuthRoutes {
@@ -15,6 +16,7 @@ export class AuthRoutes {
     // define los metodos que va a poseer la ruta de api/auth
     router.post("/login", controller.loginUser)
     router.post("/register", controller.registerUser)
+    router.get("/", AuhtMiddleware.validateJWT,controller.getUsers)
 
     return router
   }
