@@ -1,10 +1,10 @@
 import { Request, Response } from "express"
-import { CustomError, RegisterUser, RegisterUserDto } from "../../domain"
+import { CustomError, LoginUser, RegisterUser, RegisterUserDto } from "../../domain"
 import { AuthRepository } from '../../domain/repositories/Auth.respository';
 import { JwtAdapter } from "../../config";
 import { Postgres } from "../../data/postgres/postgres.database";
 import { UserModel } from "../../data/postgres/models";
-
+import { LoginUserDto } from "../../domain/dtos/auth/login-user.dto";
 
 export class AuthController {
 
@@ -35,7 +35,14 @@ export class AuthController {
   }
 
   loginUser = (req: Request, res: Response) => {
-    res.json("login user controller")
+    const [error, loginUserDto] = LoginUserDto.Loggear(req.body)
+
+    if (error) return res.status(400).json({ error })
+
+    new LoginUser(this.AuthRepository, JwtAdapter.generateToken)
+      .execute(loginUserDto!)
+      .then(data => res.json(data))
+      .catch(error => this.handleError(error, res))
 
   }
 
@@ -48,6 +55,4 @@ export class AuthController {
     }
   }
 
-
 }
-
