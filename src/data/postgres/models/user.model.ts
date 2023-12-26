@@ -22,7 +22,7 @@ export const User = new EntitySchema({
       type: String,
       enum: ["ROLE_USER", "ROLE_ADMIN"]
     },
-    imgage: {
+    img: {
       type: String,
     }
   },
