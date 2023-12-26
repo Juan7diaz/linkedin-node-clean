@@ -1,5 +1,5 @@
 import { envs } from './config'
-import { User } from './data/postgres/models'
+import { UserModel } from './data/postgres/models'
 import { Postgres } from './data/postgres/postgres.database'
 import { AppRoutes } from './presentetion/routes'
 import { Server } from "./presentetion/server"
@@ -15,7 +15,7 @@ async function main() {
     DB_PORT: envs.DB_PORT,
     DB_PASSWORD: envs.DB_PASSWORD,
     DB_USERNAME: envs.DB_USERNAME,
-    ENTITIES: [ User ]
+    ENTITIES: [ UserModel ]
   })
 
   // inicializa el servidor

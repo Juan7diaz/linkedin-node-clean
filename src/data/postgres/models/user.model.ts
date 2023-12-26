@@ -24,6 +24,7 @@ export const User = new EntitySchema({
     },
     img: {
       type: String,
+      nullable: true
     }
   },
 })

@@ -12,13 +12,15 @@ interface Options {
 
 export class Postgres {
 
+  static connectDatabase: DataSource;
+
   static async connect(options: Options) {
 
     const { DB_DATABASE, DB_HOST, DB_PASSWORD, DB_PORT, DB_USERNAME, ENTITIES } = options
 
     try {
 
-      const connectDatabase = new DataSource({
+      this.connectDatabase = new DataSource({
         type: 'postgres',
         host: DB_HOST,
         username: DB_USERNAME,
@@ -29,7 +31,7 @@ export class Postgres {
         synchronize: true,
       });
 
-      await connectDatabase.initialize()
+      await this.connectDatabase.initialize()
 
     } catch (error) {
       console.log("PostgreSQL connecting error")
