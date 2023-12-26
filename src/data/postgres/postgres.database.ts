@@ -1,5 +1,5 @@
 import "reflect-metadata"
-import { DataSource } from "typeorm"
+import { DataSource } from 'typeorm';
 
 interface Options {
   DB_HOST: string
@@ -7,13 +7,14 @@ interface Options {
   DB_PASSWORD: string
   DB_PORT: number
   DB_DATABASE: string
+  ENTITIES: any[]
 }
 
 export class Postgres {
 
   static async connect(options: Options) {
 
-    const {DB_DATABASE, DB_HOST, DB_PASSWORD, DB_PORT, DB_USERNAME} = options
+    const { DB_DATABASE, DB_HOST, DB_PASSWORD, DB_PORT, DB_USERNAME, ENTITIES } = options
 
     try {
 
@@ -24,6 +25,7 @@ export class Postgres {
         password: DB_PASSWORD,
         port: DB_PORT,
         database: DB_DATABASE,
+        entities: ENTITIES,
         synchronize: true,
       });
 
@@ -32,7 +34,6 @@ export class Postgres {
     } catch (error) {
       console.log("PostgreSQL connecting error")
       throw error
-
     }
   }
 
