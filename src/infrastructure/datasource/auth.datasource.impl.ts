@@ -3,7 +3,19 @@ import { UserModel } from "../../data/postgres/models";
 import { Postgres } from '../../data/postgres/postgres.database';
 import { BcryptAdapter } from '../../config/bcrypt';
 
+
+type hashFunction  = ( password: string ) => string
+type compareFunction  = ( password: string, hashed:string ) => boolean
+
+
 export class AuthDatasourceImpl implements AuthDatasource {
+
+  constructor(
+    private readonly hashPassword: hashFunction = BcryptAdapter.hash,
+    private readonly comparePassword: compareFunction = BcryptAdapter.compare
+  ){}
+
+
   async register(registerUserDto: RegisterUserDto): Promise<UserEntity> {
 
     const { email, name, password } = registerUserDto;
@@ -17,9 +29,8 @@ export class AuthDatasourceImpl implements AuthDatasource {
       const user =  await Postgres.connectDatabase.getRepository(UserModel).save({
         name:name,
         email:email,
-        password: BcryptAdapter.hash(password),
+        password: this.hashPassword(password),
         roles: "ROLE_ADMIN"
-
       })
 
       return new UserEntity(
