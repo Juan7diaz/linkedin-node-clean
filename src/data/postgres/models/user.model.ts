@@ -1,25 +1,31 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm"
+import { EntitySchema } from "typeorm"
 
-@Entity()
-class User {
-  @PrimaryGeneratedColumn()
-  id: number
-
-  @Column()
-  name: string
-
-  @Column({unique: true})
-  email: string
-
-  @Column()
-  password: string
-
-  @Column()
-  img: number
-
-  @Column({enum: ['USER_ROLE', 'ADMIN_ROLE']})
-  roles: string
-
-}
+export const User = new EntitySchema({
+  name: "user",
+  columns: {
+    id: {
+      type: Number,
+      primary: true,
+      generated: true,
+    },
+    name: {
+      type: String,
+    },
+    password: {
+      type: String,
+    },
+    email: {
+      type: String,
+      unique: true,
+    },
+    roles: {
+      type: String,
+      enum: ["ROLE_USER", "ROLE_ADMIN"]
+    },
+    imgage: {
+      type: String,
+    }
+  },
+})
 
 export default User

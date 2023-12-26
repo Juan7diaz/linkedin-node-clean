@@ -1,5 +1,5 @@
 import "reflect-metadata"
-import { DataSource } from 'typeorm';
+import { DataSource, EntitySchema } from 'typeorm';
 
 interface Options {
   DB_HOST: string
@@ -7,7 +7,7 @@ interface Options {
   DB_PASSWORD: string
   DB_PORT: number
   DB_DATABASE: string
-  ENTITIES: any[]
+  ENTITIES: EntitySchema[]
 }
 
 export class Postgres {
