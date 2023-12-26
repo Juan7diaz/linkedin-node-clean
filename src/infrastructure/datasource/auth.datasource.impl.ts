@@ -39,10 +39,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
     } catch (error) {
 
       if (error instanceof CustomError) {
-        throw {
-          statusCode: error.statusCode,
-          message: error.message
-        }
+        throw error
       }
 
       throw CustomError.internalServer()
